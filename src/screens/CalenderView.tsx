@@ -56,6 +56,30 @@ export const CalenderView: FC<MainStackScreen<"CalenderView">> = ({
     setLeaveDuration,
   } = useContext<any>(CalenderItems);
 
+  const handleUpdateLeaveDate = useCallback((range: number) => {
+    const updatedLeaveData = leaveData.map((item: any) => {
+      if (item.title === "Used") {
+        const _range = `${range} days`;
+        return {
+          ...item,
+          daysCount: _range,
+          days: range,
+        };
+      } else if (item.title === "Available") {
+        const leftDays = item.days - range;
+        return {
+          ...item,
+          daysCount: `${leftDays} days`,
+          days: leftDays,
+        };
+      }
+      return { ...item };
+    });
+    setLeaveData(updatedLeaveData);
+
+    return updatedLeaveData;
+  }, []);
+
   const onDayPress = (day: dayType) => {
     if (isStartDatePicked == false) {
       const markedDates: any = {};
@@ -76,6 +100,7 @@ export const CalenderView: FC<MainStackScreen<"CalenderView">> = ({
 
       const _range = _endDate.diff(selectedStartDate, "days");
       setLeaveDuration(_range);
+      handleUpdateLeaveDate(_range);
       if (_range > 0) {
         for (let i = 1; i <= _range; i++) {
           var tempDate: number = Number(_startDate.add(1, "day"));
@@ -104,32 +129,9 @@ export const CalenderView: FC<MainStackScreen<"CalenderView">> = ({
     if (selectedStartDate !== "" && selectedEndDate === "") {
       Alert.alert("Error", "Kindly select an upcomming date.");
     } else {
-      const updatedLeaveData = leaveData.map((item: any) => {
-        if (item.title === "Used") {
-          const range = `${leaveDuration} days`;
-          return {
-            ...item,
-            daysCount: range,
-            days: leaveDuration,
-          };
-        } else if (item.title === "Available") {
-          const leftDays = item.days - leaveDuration;
-          return {
-            ...item,
-            daysCount: `${leftDays} days`,
-            days: leftDays,
-          };
-        }
-        return { ...item };
-      });
-
-      setLeaveData(updatedLeaveData);
-
       navigation.goBack();
     }
   }, []);
-
-  console.log("from calender", leaveData);
 
   return (
     <View style={styles.container}>

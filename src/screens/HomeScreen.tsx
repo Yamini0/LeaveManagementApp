@@ -17,6 +17,7 @@ import { MainStackScreen } from "../typings/routers";
 import { deviceHeight } from "../utils";
 import { LeaveStatusData } from "../Constants";
 import { CalenderItems } from "../Context";
+import { LeaveStatusDataType } from "../typings/common";
 
 export const HomeScreen: FC<MainStackScreen<"HomeScreen">> = ({
   navigation,
@@ -26,6 +27,7 @@ export const HomeScreen: FC<MainStackScreen<"HomeScreen">> = ({
   const handleAddPress = useCallback(() => {
     navigation.navigate("RequestScreen");
   }, []);
+
   useEffect(() => {}, [leaveData]);
 
   return (
@@ -45,14 +47,13 @@ export const HomeScreen: FC<MainStackScreen<"HomeScreen">> = ({
         <View style={styles.horizontalDivider} />
 
         <View style={styles.row}>
-          {leaveData.map((item, index) => {
-            const isLast = index === leaveData.length - 1;
+          {leaveData.map((item: LeaveStatusDataType, index: number) => {
+            const isLast: boolean = index === leaveData.length - 1;
 
             return (
               <View style={styles.mainRowContainer} key={`${item.id}`}>
                 <View style={styles.rowContainer}>
                   <Text style={styles.header}>{item.title}</Text>
-
                   <Text style={styles.dayCountText}>{item.daysCount}</Text>
                 </View>
 
