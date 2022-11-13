@@ -36,7 +36,7 @@ export const HomeScreen: FC<MainStackScreen<"HomeScreen">> = ({
       <HeaderContainer childHeight={deviceHeight / 3.5} px={16}>
         <View style={styles.headerContainer}>
           <View>
-            <Text style={styles.title}>Yamini Sharma</Text>
+            <Text style={styles.title}>Yamini</Text>
             <Text style={styles.subTitle}>React Native Developer</Text>
           </View>
           <TouchableOpacity onPress={handleAddPress} style={styles.iconButton}>
